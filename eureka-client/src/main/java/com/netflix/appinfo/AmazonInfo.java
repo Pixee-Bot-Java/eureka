@@ -16,6 +16,8 @@
 
 package com.netflix.appinfo;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -87,7 +89,7 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
         publicIpv4s("public-ipv4s", "network/interfaces/macs/") {
             @Override
             public URL getURL(String prepend, String mac) throws MalformedURLException {
-                return new URL(AWS_METADATA_URL + this.path + mac + "/" + this.name);
+                return Urls.create(AWS_METADATA_URL + this.path + mac + "/" + this.name, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             }
         },
         ipv6("ipv6"),
@@ -97,7 +99,7 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
         vpcId("vpc-id", "network/interfaces/macs/") {
             @Override
             public URL getURL(String prepend, String mac) throws MalformedURLException {
-                return new URL(AWS_METADATA_URL + this.path + mac + "/" + this.name);
+                return Urls.create(AWS_METADATA_URL + this.path + mac + "/" + this.name, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             }
         },
         accountId("accountId") {
@@ -148,7 +150,7 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
 
         // override to apply prepend and append
         public URL getURL(String prepend, String append) throws MalformedURLException {
-            return new URL(AWS_METADATA_URL + path + name);
+            return Urls.create(AWS_METADATA_URL + path + name, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         }
 
         public String read(InputStream inputStream) throws IOException {
