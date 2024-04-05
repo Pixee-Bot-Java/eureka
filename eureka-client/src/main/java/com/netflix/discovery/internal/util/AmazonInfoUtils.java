@@ -1,6 +1,7 @@
 package com.netflix.discovery.internal.util;
 
 import com.netflix.appinfo.AmazonInfo.MetaDataKey;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,7 +25,7 @@ public final class AmazonInfoUtils {
         if (uc.getResponseCode() != HttpURLConnection.HTTP_OK) {  // need to read the error for clean connection close
             BufferedReader br = new BufferedReader(new InputStreamReader(uc.getErrorStream()));
             try {
-                while (br.readLine() != null) {
+                while (BoundedLineReader.readLine(br, 5_000_000) != null) {
                     // do nothing but keep reading the line
                 }
             } finally {
