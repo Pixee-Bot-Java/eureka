@@ -4,6 +4,7 @@ import com.netflix.appinfo.ApplicationInfoManager;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.config.DynamicPropertyFactory;
 import com.netflix.discovery.EurekaClient;
+import io.github.pixee.security.BoundedLineReader;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -106,7 +107,7 @@ public class ExampleServiceBase {
     private void processRequest(final Socket s) {
         try {
             BufferedReader rd = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            String line = rd.readLine();
+            String line = BoundedLineReader.readLine(rd, 5_000_000);
             if (line != null) {
                 System.out.println("Received a request from the example client: " + line);
             }

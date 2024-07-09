@@ -16,6 +16,7 @@
 
 package com.netflix.appinfo;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -115,7 +116,7 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
                 try {
                     String toReturn = null;
                     String inputLine;
-                    while ((inputLine = br.readLine()) != null) {
+                    while ((inputLine = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                         Matcher matcher = pattern.matcher(inputLine);
                         if (toReturn == null && matcher.find()) {
                             toReturn = matcher.group(1);
@@ -155,11 +156,11 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
             String toReturn;
             try {
-                String line = br.readLine();
+                String line = BoundedLineReader.readLine(br, 5_000_000);
                 toReturn = line;
 
                 while (line != null) {  // need to read all the buffer for a clean connection close
-                    line = br.readLine();
+                    line = BoundedLineReader.readLine(br, 5_000_000);
                 }
 
                 return toReturn;
