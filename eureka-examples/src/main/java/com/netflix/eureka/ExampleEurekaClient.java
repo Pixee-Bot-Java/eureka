@@ -16,6 +16,7 @@
 
 package com.netflix.eureka;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -103,7 +104,7 @@ public class ExampleEurekaClient {
 
             System.out.println("Waiting for server response..");
             BufferedReader rd = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            String str = rd.readLine();
+            String str = BoundedLineReader.readLine(rd, 5_000_000);
             if (str != null) {
                 System.out.println("Received response from server: " + str);
                 System.out.println("Exiting the client. Demo over..");
