@@ -95,9 +95,11 @@ public class ThresholdLevelsMetric {
             super(null, null, new long[]{});
         }
 
+        @Override
         public void update(long delayMs) {
         }
 
+        @Override
         public void shutdown() {
         }
     }
