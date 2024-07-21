@@ -169,6 +169,7 @@ public class AmazonInfo implements DataCenterInfo, UniqueIdentifier {
             }
         }
 
+        @Override
         public String toString() {
             return getName();
         }
