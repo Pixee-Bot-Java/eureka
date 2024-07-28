@@ -19,6 +19,8 @@ import com.netflix.discovery.endpoint.EndpointUtils;
 import com.netflix.eureka.EurekaServerConfig;
 import com.netflix.eureka.registry.PeerAwareInstanceRegistry;
 import com.netflix.servo.monitor.Monitors;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -234,7 +236,7 @@ public class ElasticNetworkInterfaceBinder implements AwsBinder {
         List<String> ips = Lists.newArrayList();
 
         for(String candidate : candidates) {
-            String host = new URL(candidate).getHost();
+            String host = Urls.create(candidate, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).getHost();
             if (InetAddresses.isInetAddress(host)) {
                 ips.add(host);
             } else {
