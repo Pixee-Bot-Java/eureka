@@ -16,6 +16,8 @@
 
 package com.netflix.eureka.registry;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import javax.annotation.Nullable;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -145,7 +147,7 @@ public abstract class AbstractInstanceRegistry implements InstanceRegistry {
                         clientConfig,
                         serverCodecs,
                         remoteRegionUrlWithName.getKey(),
-                        new URL(remoteRegionUrlWithName.getValue()));
+                        Urls.create(remoteRegionUrlWithName.getValue(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
                 regionNameVSRemoteRegistry.put(remoteRegionUrlWithName.getKey(), remoteRegionRegistry);
                 allKnownRemoteRegions[remoteRegionArrayIndex++] = remoteRegionUrlWithName.getKey();
             }

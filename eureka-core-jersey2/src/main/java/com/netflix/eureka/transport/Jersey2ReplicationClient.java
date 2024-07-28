@@ -1,6 +1,8 @@
 package com.netflix.eureka.transport;
 
 import static com.netflix.discovery.shared.transport.EurekaHttpResponse.anEurekaHttpResponse;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -139,7 +141,7 @@ public class Jersey2ReplicationClient extends AbstractJersey2EurekaHttpClient im
         try {
             String hostname;
             try {
-                hostname = new URL(serviceUrl).getHost();
+                hostname = Urls.create(serviceUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).getHost();
             } catch (MalformedURLException e) {
                 hostname = serviceUrl;
             }

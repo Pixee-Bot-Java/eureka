@@ -1,5 +1,7 @@
 package com.netflix.eureka.transport;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 import java.net.InetAddress;
@@ -144,7 +146,7 @@ public class JerseyReplicationClient extends AbstractJerseyEurekaHttpClient impl
         try {
             String hostname;
             try {
-                hostname = new URL(serviceUrl).getHost();
+                hostname = Urls.create(serviceUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).getHost();
             } catch (MalformedURLException e) {
                 hostname = serviceUrl;
             }
