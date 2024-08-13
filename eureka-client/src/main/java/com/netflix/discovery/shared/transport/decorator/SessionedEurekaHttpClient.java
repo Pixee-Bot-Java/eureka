@@ -16,6 +16,7 @@
 
 package com.netflix.discovery.shared.transport.decorator;
 
+import java.security.SecureRandom;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -41,7 +42,7 @@ import static com.netflix.discovery.EurekaClientNames.METRIC_TRANSPORT_PREFIX;
 public class SessionedEurekaHttpClient extends EurekaHttpClientDecorator {
     private static final Logger logger = LoggerFactory.getLogger(SessionedEurekaHttpClient.class);
 
-    private final Random random = new Random();
+    private final Random random = new SecureRandom();
 
     private final String name;
     private final EurekaHttpClientFactory clientFactory;
