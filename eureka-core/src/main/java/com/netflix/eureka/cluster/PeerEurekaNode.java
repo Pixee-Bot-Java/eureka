@@ -16,6 +16,8 @@
 
 package com.netflix.eureka.cluster;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -376,7 +378,7 @@ public class PeerEurekaNode {
     public String getBatcherName() {
         String batcherName;
         try {
-            batcherName = new URL(serviceUrl).getHost();
+            batcherName = Urls.create(serviceUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).getHost();
         } catch (MalformedURLException e1) {
             batcherName = serviceUrl;
         }
