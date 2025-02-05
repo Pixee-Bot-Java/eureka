@@ -1,5 +1,7 @@
 package com.netflix.discovery.util;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.jar.Attributes.Name;
@@ -52,7 +54,7 @@ public final class DiscoveryBuildInfo {
     }
 
     private static Manifest loadManifest(String jarUrl) throws Exception {
-        InputStream is = new URL(jarUrl + "!/META-INF/MANIFEST.MF").openStream();
+        InputStream is = Urls.create(jarUrl + "!/META-INF/MANIFEST.MF", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
         try {
             return new Manifest(is);
         } finally {

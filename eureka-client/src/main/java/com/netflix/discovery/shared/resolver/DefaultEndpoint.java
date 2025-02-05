@@ -16,6 +16,8 @@
 
 package com.netflix.discovery.shared.resolver;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +38,7 @@ public class DefaultEndpoint implements EurekaEndpoint {
         this.serviceUrl = serviceUrl;
 
         try {
-            URL url = new URL(serviceUrl);
+            URL url = Urls.create(serviceUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             this.networkAddress = url.getHost();
             this.port = url.getPort();
             this.isSecure = "https".equals(url.getProtocol());
