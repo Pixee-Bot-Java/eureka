@@ -16,6 +16,7 @@
 
 package com.netflix.discovery.shared;
 
+import java.security.SecureRandom;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,7 +56,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 @JsonRootName("application")
 public class Application {
     
-    private static Random shuffleRandom = new Random();
+    private static Random shuffleRandom = new SecureRandom();
 
     @Override
     public String toString() {
