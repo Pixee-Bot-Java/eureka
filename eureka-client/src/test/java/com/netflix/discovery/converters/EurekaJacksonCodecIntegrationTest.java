@@ -1,5 +1,7 @@
 package com.netflix.discovery.converters;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -101,7 +103,7 @@ public class EurekaJacksonCodecIntegrationTest {
             throw new IllegalArgumentException("null value not allowed for parameter discoveryUrl");
         }
         File localFile = File.createTempFile("discovery-data-", ".json");
-        URL url = new URL(discoveryUrl);
+        URL url = Urls.create(discoveryUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         System.out.println("downloading registration data from " + url + " to " + localFile);
         HttpURLConnection hurlConn = (HttpURLConnection) url.openConnection();
         hurlConn.setDoOutput(true);

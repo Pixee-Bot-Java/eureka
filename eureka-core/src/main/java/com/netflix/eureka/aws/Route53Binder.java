@@ -10,6 +10,8 @@ import com.netflix.appinfo.ApplicationInfoManager;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClientConfig;
 import com.netflix.eureka.EurekaServerConfig;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -259,7 +261,7 @@ public class Route53Binder implements AwsBinder {
     }
 
     private String extractDomain(String url) throws MalformedURLException {
-        return new URL(url).getHost() + ".";
+        return Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).getHost() + ".";
     }
 
     @Override
