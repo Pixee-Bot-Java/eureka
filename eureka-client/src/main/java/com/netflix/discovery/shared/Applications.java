@@ -16,6 +16,7 @@
 
 package com.netflix.discovery.shared;
 
+import java.security.SecureRandom;
 import javax.annotation.Nullable;
 import java.util.AbstractQueue;
 import java.util.ArrayList;
@@ -349,7 +350,7 @@ public class Applications {
      */
     private void shuffleAndFilterInstances(Map<String, VipIndexSupport> srcMap, boolean filterUpInstances) {
 
-        Random shuffleRandom = new Random();
+        Random shuffleRandom = new SecureRandom();
         for (Map.Entry<String, VipIndexSupport> entries : srcMap.entrySet()) {
             VipIndexSupport vipIndexSupport = entries.getValue();
             AbstractQueue<InstanceInfo> vipInstances = vipIndexSupport.instances;
