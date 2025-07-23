@@ -1,5 +1,6 @@
 package com.netflix.discovery;
 
+import io.github.pixee.security.BoundedLineReader;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -221,7 +222,7 @@ public class MockRemoteEurekaServer extends ExternalResource {
                         String hostname = null;
                         String line;
                         BufferedReader reader = request.getReader();
-                        while ((line = reader.readLine()) != null) {
+                        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                             Matcher hostNameMatcher = HOSTNAME_PATTERN.matcher(line);
                             if (hostname == null && hostNameMatcher.find()) {
                                 hostname = hostNameMatcher.group(1);
